@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markus Chicken - Menú Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f8f8 0%, #fff5e6 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(to right, #d32f2f, #ff8a65);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        
+        .menu-image {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .menu-content {
+            padding: 20px;
+        }
+        
+        .menu-title {
+            font-size: 1.4rem;
+            color: #d32f2f;
+            margin-bottom: 10px;
+            border-bottom: 2px dashed #ffccbc;
+            padding-bottom: 8px;
+        }
+        
+        .menu-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .menu-price {
+            font-weight: bold;
+            color: #e64a19;
+            font-size: 1.2rem;
+            text-align: right;
+        }
+        
+        .qr-section {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #f5f5f5;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #d32f2f;
+            border-radius: 10px;
+            padding: 10px;
+        }
+        
+        .instructions {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #333;
+            color: white;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        .category {
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff8a65;
+            color: #d32f2f;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #d32f2f;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 3;
+        }
+        
+        .print-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            background: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .print-btn:hover {
+            background: #b71c1c;
+        }
+
+        .image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #ffeb3b, #ff9800);
+            width: 100%;
+            height: 100%;
+        }
+        
+        .image-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        
+        .image-message {
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+            </div>
+            <h1>Markus Chicken</h1>
+            <p class="tagline">最好的食物 - Disfruta cada vez que pides</p>
+        </header>
+        
+        <div class="qr-section">
+            <h2>Escanea nuestro código QR para ver el menú</h2>
+            <canvas class="qr-code" id="qrcode"></canvas>
+            <p class="instructions">Usa la cámara de tu teléfono para escanear el código QR y acceder a nuestro menú digital</p>
+            <button class="print-btn" onclick="window.print()">
+                <i class="fas fa-print"></i> Imprimir Menú
+            </button>
+        </div>
+        
+        <h2 class="category">Especialidades de la Casa</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Especialidad de la casa Markus chicken.jpeg');">
+                    <span class="badge">Especialidad</span>
+                    <!-- Mensaje que solo se muestra si la imagen no carga -->
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-drumstick-bite"></i>
+                        <span>Especialidad de la casa</span>
+                        <div class="image-message">Imagen no encontrada: 'Especialidad de la casa Markus chicken.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Markus Chicken Especial</h3>
+                    <p class="menu-description">Nuestra receta secreta de pollo crujiente con especias especiales, servido con salsa de la casa.</p>
+                    <p class="menu-price">$205</p>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Pollo a la naranja.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-drumstick-bite"></i>
+                        <span>Pollo a la naranja</span>
+                        <div class="image-message">Imagen no encontrada: 'Pollo a la naranja.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Pollo a la Naranja</h3>
+                    <p class="menu-description">Trozos de pollo crujiente bañados en nuestra salsa agridulce de naranja natural, acompañado de arroz.</p>
+                    <p class="menu-price">$185</p>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Pollo agridulce.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-drumstick-bite"></i>
+                        <span>Pollo agridulce</span>
+                        <div class="image-message">Imagen no encontrada: 'Pollo agridulce.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Pollo Agridulce</h3>
+                    <p class="menu-description">Pollo en trozos rebozados y fritos, acompañado de una deliciosa salsa agridulce con piña y pimientos.</p>
+                    <p class="menu-price">$180</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="category">Acompañamientos</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Ejotes salteados.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-leaf"></i>
+                        <span>Ejotes salteados</span>
+                        <div class="image-message">Imagen no encontrada: 'Ejotes salteados.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Ejotes Salteados</h3>
+                    <p class="menu-description">Ejotes frescos salteados con ajo, jengibre y nuestra salsa especial de soya.</p>
+                    <p class="menu-price">$95</p>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Arroz frito.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-rice"></i>
+                        <span>Arroz frito</span>
+                        <div class="image-message">Imagen no encontrada: 'Arroz frito.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Arroz Frito</h3>
+                    <p class="menu-description">Arroz frito con huevo, vegetales frescos y tu elección de pollo, camarón o vegetariano.</p>
+                    <p class="menu-price">$120</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="category">Entradas</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Orden de rollos primavera.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-egg"></i>
+                        <span>Rollos primavera</span>
+                        <div class="image-message">Imagen no encontrada: 'Orden de rollos primavera.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Rollos Primavera</h3>
+                    <p class="menu-description">Crujientes rollos rellenos de vegetales frescos y carne de tu elección. Acompañados de salsa agridulce.</p>
+                    <p class="menu-price">$110</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="category">Platillos Especiales</h2>
+        <div class="menu-grid">
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Kung Pao.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-pepper-hot"></i>
+                        <span>Kung Pao</span>
+                        <div class="image-message">Imagen no encontrada: 'Kung Pao.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Kung Pao</h3>
+                    <p class="menu-description">Plato clásico de la cocina Sichuan con pollo, cacahuates, chiles y vegetales en salsa picante.</p>
+                    <p class="menu-price">$195</p>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Lo mei.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-utensil-spoon"></i>
+                        <span>Lo Mein</span>
+                        <div class="image-message">Imagen no encontrada: 'Lo mei.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Lo Mein</h3>
+                    <p class="menu-description">Fideos de trigo salteados con vegetales frescos y tu elección de proteína en nuestra salsa especial.</p>
+                    <p class="menu-price">$175</p>
+                </div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-image" style="background-image: url('Sushi california.jpeg');">
+                    <div class="image-placeholder" style="display: none;">
+                        <i class="fas fa-fish"></i>
+                        <span>Sushi California</span>
+                        <div class="image-message">Imagen no encontrada: 'Sushi california.jpeg'</div>
+                    </div>
+                </div>
+                <div class="menu-content">
+                    <h3 class="menu-title">Sushi California</h3>
+                    <p class="menu-description">Rollos de sushi rellenos de surimi, aguacate y pepino, cubiertos con huevas de tobiko. Opción con camarón disponible.</p>
+                    <p class="menu-price">$220</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Markus Chicken - 美团一次美一次</p>
+            <p>Horario: Lunes a Domingo 11:00 - 22:00</p>
+            <p>Teléfono: 33 3218 3775 | Dirección: Andador Luis castillo ledon 2911 interior 24, La joya</p>
+        </footer>
+    </div>
+
+    <script>
+        
+        // Generar código QR
+        document.addEventListener('DOMContentLoaded', function() {
+            const qrCodeElement = document.getElementById('qrcode');
+            
+            // Generar código QR con la URL específica de Markus Chicken
+            QRCode.toCanvas(qrCodeElement, 'https://tsbladi5-hash.github.io/markus-chicken/', { width: 180 }, function(error) {
+                if (error) {
+                    console.error(error);
+                    qrCodeElement.innerHTML = '<i class="fas fa-qrcode" style="font-size: 100px; color: #333;"></i>';
+                }
+            });
+
+            // Verificar si las imágenes existen y mostrar placeholder si no
+            const menuImages = document.querySelectorAll('.menu-image');
+            menuImages.forEach(img => {
+                const bgImage = img.style.backgroundImage;
+                if (bgImage) {
+                    const imageUrl = bgImage.replace(/url\(['"]?(.*?)['"]?\)/i, '$1');
+                    const imgElement = new Image();
+                    imgElement.onload = function() {
+                        // La imagen existe, ocultar el placeholder
+                        const placeholder = img.querySelector('.image-placeholder');
+                        if (placeholder) placeholder.style.display = 'none';
+                    };
+                    imgElement.onerror = function() {
+                        // La imagen no existe, mostrar el placeholder
+                        const placeholder = img.querySelector('.image-placeholder');
+                        if (placeholder) placeholder.style.display = 'flex';
+                    };
+                    imgElement.src = imageUrl;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
