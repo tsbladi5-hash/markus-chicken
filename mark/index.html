@@ -216,10 +216,45 @@
             text-align: center;
             padding: 0 10px;
         }
+        
+        .troubleshooting {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .troubleshooting h3 {
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+        
+        .troubleshooting ol {
+            padding-left: 20px;
+        }
+        
+        .troubleshooting li {
+            margin-bottom: 10px;
+        }
+        
+        .success-banner {
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="success-banner" id="successBanner">
+            <i class="fas fa-check-circle"></i> ¡El menú está funcionando correctamente!
+        </div>
+        
         <header>
             <div class="logo">
                 <i class="fas fa-utensils"></i>
@@ -227,6 +262,19 @@
             <h1>Markus Chicken</h1>
             <p class="tagline">美团一次美一次 - Disfruta cada vez que pides</p>
         </header>
+        
+        <div class="troubleshooting">
+            <h3><i class="fas fa-tools"></i> Solución de problemas - Error 404</h3>
+            <p>Si estás viendo un error 404, sigue estos pasos:</p>
+            <ol>
+                <li>Asegúrate de que este archivo se llame <strong>index.html</strong></li>
+                <li>Verifica que tu repositorio de GitHub sea <strong>público</strong></li>
+                <li>Configura GitHub Pages para publicar desde la rama <strong>main</strong> (o la rama donde está este archivo)</li>
+                <li>Las imágenes deben estar en la misma carpeta que este archivo o en una subcarpeta</li>
+                <li>Después de subir los archivos, espera unos minutos para que GitHub Pages se actualice</li>
+            </ol>
+            <p>Tu URL de GitHub Pages debería ser: <strong>https://tuusuario.github.io/nombre-repositorio/</strong></p>
+        </div>
         
         <div class="qr-section">
             <h2>Escanea nuestro código QR para ver el menú</h2>
@@ -422,10 +470,14 @@
                         // La imagen no existe, mostrar el placeholder
                         const placeholder = img.querySelector('.image-placeholder');
                         if (placeholder) placeholder.style.display = 'flex';
+                        img.style.backgroundImage = 'none';
                     };
                     imgElement.src = imageUrl;
                 }
             });
+            
+            // Mostrar banner de éxito si la página carga correctamente
+            document.getElementById('successBanner').style.display = 'block';
         });
     </script>
 </body>
